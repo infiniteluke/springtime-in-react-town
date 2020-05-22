@@ -19,7 +19,7 @@
     "patch-package": "^6.2.2",
     "postinstall-postinstall": "^2.1.0",
     "react-live": "^2.2.2",
-    "react-reduce-motion": "^2.0.1",
+    "react-reduce-motion": "^2.0.2",
     "react-spring": "^9.0.0-rc.3",
     "styled-components": "^5.0.1"
   },

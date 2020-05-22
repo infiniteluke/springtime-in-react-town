@@ -9969,10 +9969,10 @@ react-reconciler@^0.24.0:
     prop-types "^15.6.2"
     scheduler "^0.18.0"
 
-react-reduce-motion@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/react-reduce-motion/-/react-reduce-motion-2.0.1.tgz#f02b6a2a94de5cfef60b05cb670bfd8c4fa239d6"
-  integrity sha512-tA0A/aFwBOIEJqSWyjGAX5ASyjWIcHUFiawHlp7ZW67HFkokOsZ1zZ7jK+7ufbH35h4RTb9O2UUUBZ3zTQ26Ug==
+react-reduce-motion@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/react-reduce-motion/-/react-reduce-motion-2.0.2.tgz#cbe136f808a31e2c80f16660ce0f3156bb1e2be3"
+  integrity sha512-4E5oIMIb8PIfeKR9NJtkHTRCukSdkCkvlhsq+nB03CgIWnrX3wyM46LUlKxdHcFUyzmaGUD04BjkIxRFqtccLg==
 
 react-side-effect@^1.1.0:
   version "1.2.0"
