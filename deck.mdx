@@ -382,7 +382,7 @@ function ParallaxAnimatedButton({ rotation = 10, scale = 1.2 }) {
 }
 ```
 
-```jsx 11:19 subtitle="Wire up mouse move to calc function, set spring value"
+```jsx 11:14 subtitle="Wire up mouse move to calc function, set spring value"
 function ParallaxAnimatedButton({ rotation = 10, scale = 1.2 }) {
   const buttonRef = React.useRef();
   const [props, set] = useSpring(() => ({
@@ -407,7 +407,7 @@ function ParallaxAnimatedButton({ rotation = 10, scale = 1.2 }) {
 }
 ```
 
-```jsx 21:23 subtitle="use "to" to turn numbers into style "perspective(800px) rotateX(10deg) rotateY(-10deg) scale(1.2)""
+```jsx 15:17 subtitle="use 'to' to turn numbers into style 'perspective(800px) rotateX(10deg) rotateY(-10deg) scale(1.2)'"
 function ParallaxAnimatedButton({ rotation = 10, scale = 1.2 }) {
   const buttonRef = React.useRef();
   const [props, set] = useSpring(() => ({
