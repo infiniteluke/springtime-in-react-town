@@ -444,6 +444,51 @@ function ParallaxAnimatedButton({ rotation = 10, scale = 1.2 }) {
 
 ---
 
+<LiveCode
+  showEditor={false}
+  scope={{
+    useSpring,
+    animated,
+    transform,
+    calc,
+    config,
+  }}
+  code={`function ParallaxAnimatedButton({ rotation = 12, scale = 1.5 }) {
+  const buttonRef = React.useRef();
+  const [props, set] = useSpring(() => ({
+    xys: [0, 0, 1],
+    config: { mass: 7, tension: 2000, friction: 40 }
+  }));
+  return (
+    <animated.button
+      ref={buttonRef}
+      className="springy-button"
+      onMouseMove={({ clientX, clientY }) =>
+        set({ xys: calc(
+          rotation,
+          scale,
+          clientX,
+          clientY,
+          buttonRef.current)
+        })
+      }
+      onMouseLeave={() => set({ xys: [0, 0, 1] })}
+      style={{
+        width: '400px',
+        height: '400px',
+        fontSize: '2rem',
+        borderRadius: '60px',
+        transform: props.xys.to(transform),
+      }}
+    >
+      Hover over me!
+    </animated.button>
+  );
+}`}
+/>
+
+---
+
 <div style={{ fontSize: '12rem', color: '#00a4db' }}>69 Million</div>
 
 <Notes>
@@ -600,7 +645,8 @@ export function useReduceMotion() {
 - [react-spring](https://www.react-spring.io/)
 - [Vestibular dysfunction study](https://pubmed.ncbi.nlm.nih.gov/19468085/)
 - [prefers-reduced-motion media query](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion)
-- [react-reduce-motion](https://github.com/infiniteluke/react-reduce-motion)
+- [react-reduce-motion hook](https://github.com/infiniteluke/react-reduce-motion)
+- [WCAG 2.1 - Guideline 2.3 Seizures and Physical Reactions](https://www.w3.org/TR/WCAG21/#seizures-and-physical-reactions)
 - @luke on slack
 
 ---
