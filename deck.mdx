@@ -1,17 +1,606 @@
-import './global.css'
-import { CodeSurfer, CodeSurferColumns, Step } from "code-surfer"
-import { LiveCode } from 'mdx-deck-live-code'
-import customTheme from './theme'
+import './global.css';
+import { Notes } from 'mdx-deck';
+import { CodeSurfer, CodeSurferColumns, Step } from 'code-surfer';
+import { useSpring, useTrail, animated, config } from 'react-spring';
+import { useReduceMotion } from 'react-reduce-motion';
+import { transform, calc, fast, slow, transformGoo } from './lib';
+import LiveCode from './components/LiveCode';
+import Goo from './components/Goo';
+import customTheme from './theme';
 
-export const theme = customTheme
+export const theme = customTheme;
 
 # It's Springtime In React Town
+
+---
+
+# The Open Web Is Magic ✨
+
+<Notes>
+
+- Short feedback loop.
+- Send it to friends
+- Many ways to express creativity and personality have sprung up as the web has grown and evolved.
+
+</Notes>
+
+---
+
+# React Spring
+
+## A spring physics based React animation library
+
+<img
+  src="https://camo.githubusercontent.com/b271ecbaca87f7700f877081eb1b83b4b8c2a223/68747470733a2f2f692e696d6775722e636f6d2f515a6f776e68672e706e67"
+  style={{ maxWidth: '500px' }}
+/>
+
+<Notes>
+
+React Spring does for animations what React did for state
+
+- Declarative
+- Predictable
+
+</Notes>
+
+---
+
+<img src="https://i.imgur.com/tg1mN1F.gif" style={{ maxWidth: '800px' }} />
+
+---
+
+<img src="https://i.imgur.com/OxGLHeT.gif" style={{ maxWidth: '800px' }} />
+
+---
+
+<img src="https://i.imgur.com/ifdCBvG.gif" style={{ maxWidth: '400px' }} />
+
+---
+
+# Why Springs?
+
+<img src="https://i.imgur.com/7CCH51r.gif" />
+
+<Notes>
+
+- No duration
+- Fluidity OOTB
+- More natural, like real world
+
+</Notes>
+
+---
+
+<LiveCode
+  code={`function Button() {
+  const [active, setActive] = React.useState(false);
+  return (
+    <button
+      className="springy-button"
+      onMouseOver={() => setActive(true)}
+      onMouseOut={() => setActive(false)}
+      style={{
+        transform: active ? 'scale(1.2)' : 'scale(1)',
+      }}
+    >
+      Hover over me!
+    </button>
+  );
+}`}
+/>
+
+---
+
+<CodeSurfer>
+
+```jsx 2 subtitle="To change the scale of a button on hover"
+function Button() {
+  const [active, setActive] = React.useState(false);
+  return (
+    <button
+      className="springy-button"
+      onMouseOver={() => setActive(true)}
+      onMouseOut={() => setActive(false)}
+      style={{
+        transform: active ? 'scale(1.2)' : 'scale(1)',
+      }}
+    >
+      Hover over me!
+    </button>
+  );
+}
+```
+
+```jsx 6:7 subtitle="Change that state onMouseOverand onMouseOutof the button"
+function Button() {
+  const [active, setActive] = React.useState(false);
+  return (
+    <button
+      className="springy-button"
+      onMouseOver={() => setActive(true)}
+      onMouseOut={() => setActive(false)}
+      style={{
+        transform: active ? 'scale(1.2)' : 'scale(1)',
+      }}
+    >
+      Hover over me!
+    </button>
+  );
+}
+```
+
+```jsx 8:10 subtitle="Conditionally set the transform on the button"
+function Button() {
+  const [active, setActive] = React.useState(false);
+  return (
+    <button
+      className="springy-button"
+      onMouseOver={() => setActive(true)}
+      onMouseOut={() => setActive(false)}
+      style={{
+        transform: active ? 'scale(1.2)' : 'scale(1)',
+      }}
+    >
+      Hover over me!
+    </button>
+  );
+}
+```
+
+</CodeSurfer>
+
+---
+
+# 🤔 Maybe use CSS?
+
+---
+
+# There's no such Spring as bad publicity
+
+<LiveCode
+  scope={{
+    useSpring,
+    animated,
+    config,
+  }}
+  code={`function AnimatedButton() {
+  const [active, setActive] = React.useState(false);
+  const props = useSpring({
+    transform: active ? 'scale(1.2)' : 'scale(1)',
+  });
+  return (
+    <animated.button
+      className="springy-button"
+      onMouseOver={() => setActive(true)}
+      onMouseOut={() => setActive(false)}
+      style={{
+        transform: props.transform,
+      }}
+    >
+      Hover over me!
+    </animated.button>
+  );
+}`}
+/>
+
+---
+
+<CodeSurfer>
+
+```jsx 2:5 subtitle="Add useSpring hook and use active state toggle "transform" prop"
+function AnimatedButton() {
+  const [active, setActive] = React.useState(false);
+  const props = useSpring({
+    transform: active ? 'scale(1.2)' : 'scale(1)',
+  });
+  return (
+    <animated.button
+      className="springy-button"
+      onMouseOver={() => setActive(true)}
+      onMouseOut={() => setActive(false)}
+      style={{
+        transform: props.transform,
+      }}
+    >
+      Hover over me!
+    </animated.button>
+  );
+}
+```
+
+```jsx 7,16 subtitle="Change the button element into an animated.button"
+function AnimatedButton() {
+  const [active, setActive] = React.useState(false);
+  const props = useSpring({
+    transform: active ? 'scale(1.2)' : 'scale(1)',
+  });
+  return (
+    <animated.button
+      className="springy-button"
+      onMouseOver={() => setActive(true)}
+      onMouseOut={() => setActive(false)}
+      style={{
+        transform: props.transform,
+      }}
+    >
+      Hover over me!
+    </animated.button>
+  );
+}
+```
+
+```jsx 11:13 subtitle="Wire up the "animated" transform prop from useSpring to our buttons style prop"
+function AnimatedButton() {
+  const [active, setActive] = React.useState(false);
+  const props = useSpring({
+    transform: active ? 'scale(1.2)' : 'scale(1)',
+  });
+  return (
+    <animated.button
+      className="springy-button"
+      onMouseOver={() => setActive(true)}
+      onMouseOut={() => setActive(false)}
+      style={{
+        transform: props.transform,
+      }}
+    >
+      Hover over me!
+    </animated.button>
+  );
+}
+```
+
+</CodeSurfer>
+
+---
+
+<LiveCode
+  showEditor={false}
+  scope={{
+    useSpring,
+    animated,
+    config,
+  }}
+  code={`function AnimatedButton() {
+  const [active, setActive] = React.useState(false);
+  const props = useSpring({
+    transform: active ? 'scale(1.2)' : 'scale(1)',
+  });
+  return (
+    <animated.button
+      className="springy-button"
+      onMouseOver={() => setActive(true)}
+      onMouseOut={() => setActive(false)}
+      style={{
+        width: '400px',
+        height: '400px',
+        fontSize: '2rem',
+        borderRadius: '60px',
+        transform: props.transform,
+      }}
+    >
+      Hover over me!
+    </animated.button>
+  );
+}`}
+/>
+
+---
+
+# Spring It On
+
+<LiveCode
+  scope={{
+    useSpring,
+    animated,
+    transform,
+    calc,
+    config,
+  }}
+  code={`function ParallaxAnimatedButton({ rotation = 10, scale = 1.2 }) {
+  const buttonRef = React.useRef();
+  const [props, set] = useSpring(() => ({
+    xys: [0, 0, 1],
+    config: { mass: 7, tension: 500, friction: 40 }
+  }));
+  return (
+    <animated.button
+      ref={buttonRef}
+      className="springy-button"
+      onMouseMove={({ clientX, clientY }) =>
+        set({ xys: calc(
+          rotation, 
+          scale, 
+          clientX, 
+          clientY, 
+          buttonRef.current)
+        })
+      }
+      onMouseLeave={() => set({ xys: [0, 0, 1] })}
+      style={{
+        transform: props.xys.to(transform),
+      }}
+    >
+      Hover over me!
+    </animated.button>
+  );
+}`}
+/>
+
+---
+
+<CodeSurfer>
+
+```jsx 2 subtitle="Setup ref so we can calculate button size/location"
+function ParallaxAnimatedButton({ rotation = 10, scale = 1.2 }) {
+  const buttonRef = React.useRef();
+  const [props, set] = useSpring(() => ({
+    xys: [0, 0, 1],
+    config: { mass: 7, tension: 500, friction: 40 },
+  }));
+  return (
+    <animated.button
+      ref={buttonRef}
+      className="springy-button"
+      onMouseMove={({ clientX, clientY }) =>
+        set({ xys: calc(rotation, scale, clientX, clientY, buttonRef.current) })
+      }
+      onMouseLeave={() => set({ xys: [0, 0, 1] })}
+      style={{
+        transform: props.xys.to(transform),
+      }}
+    >
+      Hover over me!
+    </animated.button>
+  );
+}
+```
+
+```jsx 3:6 subtitle="Setup spring value as a tuple of x and y rotation, and button scale"
+function ParallaxAnimatedButton({ rotation = 10, scale = 1.2 }) {
+  const buttonRef = React.useRef();
+  const [props, set] = useSpring(() => ({
+    xys: [0, 0, 1],
+    config: { mass: 7, tension: 500, friction: 40 },
+  }));
+  return (
+    <animated.button
+      ref={buttonRef}
+      className="springy-button"
+      onMouseMove={({ clientX, clientY }) =>
+        set({ xys: calc(rotation, scale, clientX, clientY, buttonRef.current) })
+      }
+      onMouseLeave={() => set({ xys: [0, 0, 1] })}
+      style={{
+        transform: props.xys.to(transform),
+      }}
+    >
+      Hover over me!
+    </animated.button>
+  );
+}
+```
+
+```jsx 11:19 subtitle="Wire up mouse move to calc function, set spring value"
+function ParallaxAnimatedButton({ rotation = 10, scale = 1.2 }) {
+  const buttonRef = React.useRef();
+  const [props, set] = useSpring(() => ({
+    xys: [0, 0, 1],
+    config: { mass: 7, tension: 500, friction: 40 },
+  }));
+  return (
+    <animated.button
+      ref={buttonRef}
+      className="springy-button"
+      onMouseMove={({ clientX, clientY }) =>
+        set({ xys: calc(rotation, scale, clientX, clientY, buttonRef.current) })
+      }
+      onMouseLeave={() => set({ xys: [0, 0, 1] })}
+      style={{
+        transform: props.xys.to(transform),
+      }}
+    >
+      Hover over me!
+    </animated.button>
+  );
+}
+```
+
+```jsx 21:23 subtitle="use "to" to turn numbers into style "perspective(800px) rotateX(10deg) rotateY(-10deg) scale(1.2)""
+function ParallaxAnimatedButton({ rotation = 10, scale = 1.2 }) {
+  const buttonRef = React.useRef();
+  const [props, set] = useSpring(() => ({
+    xys: [0, 0, 1],
+    config: { mass: 7, tension: 500, friction: 40 },
+  }));
+  return (
+    <animated.button
+      ref={buttonRef}
+      className="springy-button"
+      onMouseMove={({ clientX, clientY }) =>
+        set({ xys: calc(rotation, scale, clientX, clientY, buttonRef.current) })
+      }
+      onMouseLeave={() => set({ xys: [0, 0, 1] })}
+      style={{
+        transform: props.xys.to(transform),
+      }}
+    >
+      Hover over me!
+    </animated.button>
+  );
+}
+```
+
+</CodeSurfer>
+
+<Notes>
+
+- No need for active state anymore
+- Adjusting "config"
+- optionally destructure a "set" function for triggering the spring manually.
+
+</Notes>
+
+---
+
+<div style={{ fontSize: '12rem', color: '#00a4db' }}>69 Million</div>
+
+<Notes>
+
+- Just a little math
+- Animation is so cool that it's tempting to put them everwhere
+- Vestibular dysfunction: a balance disorder of the inner ear
+- vertigo, nausea, migraines and hearing loss
+
+</Notes>
+
+---
+
+# MacOS Reduce Motion ➰
+
+<img
+  src="https://lukeherrington.com/static/56a2a145993311eb80344c1b9845f23f/884f2/reduce-motion-macos.png"
+  style={{ maxWidth: '800px' }}
+/>
+
+---
+
+<div style={{ fontSize: '4rem' }}>
+
+`prefers-reduced-motion`
+
+</div>
+
+<Notes>
+
+- media query's are info about a users device, including in this case an OS level setting
+- this is a media query that indicates whether the user has the reduced motion setting enabled
+
+</Notes>
+
+---
+
+<CodeSurfer>
+
+```jsx
+export function useReduceMotion() {
+  const [matches, setMatch] = React.useState(
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
+  React.useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const handleChange = () => {
+      setMatch(mq.matches);
+    };
+    handleChange();
+    mq.addEventListener('change', handleChange);
+    return () => {
+      mq.removeEventListener('change', handleChange);
+    };
+  }, []);
+  return matches;
+}
+```
+
+```jsx 2:4 subtitle="Initialize state with media query state"
+export function useReduceMotion() {
+  const [matches, setMatch] = React.useState(
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
+  React.useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const handleChange = () => {
+      setMatch(mq.matches);
+    };
+    handleChange();
+    mq.addEventListener('change', handleChange);
+    return () => {
+      mq.removeEventListener('change', handleChange);
+    };
+  }, []);
+  return matches;
+}
+```
+
+```jsx 5:16 subtitle="Sync media query state with "matches" state"
+export function useReduceMotion() {
+  const [matches, setMatch] = React.useState(
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
+  React.useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const handleChange = () => {
+      setMatch(mq.matches);
+    };
+    handleChange();
+    mq.addEventListener('change', handleChange);
+    return () => {
+      mq.removeEventListener('change', handleChange);
+    };
+  }, []);
+  return matches;
+}
+```
+
+</CodeSurfer>
+
+---
+
+<LiveCode
+  scope={{
+    useSpring,
+    animated,
+    useReduceMotion,
+    transform,
+    calc,
+    config,
+  }}
+  code={`function ParallaxAnimatedButton({ rotation = 10, scale = 1.2 }) {
+  const buttonRef = React.useRef();
+  const reduceMotion = useReduceMotion();
+  const defaultTransform = [0, 0, 1]
+  const actualRotation = reduceMotion ? rotation / 3 : rotation;
+  const actualScale = reduceMotion ? 1.01 : scale;
+  const [props, set] = useSpring(() => ({
+    xys: defaultTransform,
+    config: config.wobbly
+  }));
+  return (
+    <animated.button
+      ref={buttonRef}
+      className="springy-button"
+      onMouseMove={({ clientX, clientY }) =>
+        set({ xys: calc(
+          actualRotation,
+          actualScale,
+          clientX,
+          clientY,
+          buttonRef.current)
+        })
+      }
+      onMouseLeave={() => set({ xys: defaultTransform })}
+      style={{ transform: props.xys.to(transform) }}
+    >
+      Hover over me!
+    </animated.button>
+  );
+}`}
+/>
+
+---
+
+<Goo />
 
 ---
 
 # Resources
 
 - [Slide Deck Code](https://github.com/infiniteluke/springtime-in-react-town)
+- [react-spring](https://www.react-spring.io/)
+- [Vestibular dysfunction study](https://pubmed.ncbi.nlm.nih.gov/19468085/)
+- [prefers-reduced-motion media query](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion)
+- [react-reduce-motion](https://github.com/infiniteluke/react-reduce-motion)
 - @luke on slack
 
 ---
